@@ -4,7 +4,7 @@ from datetime import datetime
 def obter_resposta(texto: str) -> str:
     comando: str = texto.lower()
 
-    if comando in ('olá', 'boa tarde', 'bom dia'):
+    """if comando in ('olá', 'boa tarde', 'bom dia'):
         return 'Olá tudo bem!'
     if comando == 'como estás':
         return 'Estou bem, obrigado!'
@@ -19,34 +19,41 @@ def obter_resposta(texto: str) -> str:
     if 'data' in comando:
         return f'Hoje é dia: {datetime.now():%d-%m-%Y}'
 
-    return f'Desculpa, não entendi a questão! {texto}'
+    return f'Desculpa, não entendi a questão! {texto}'"""
 
-"""
+    # Alternativa mais eficiente com dicionário usando tuplas para chaves e listas para valores
     respostas = {
         ('olá', 'boa tarde', 'bom dia'): 'Olá tudo bem!',
         'como estás': 'Estou bem, obrigado!',
         'capital de portugal': "Lisboa",
         'como te chamas': 'O meu nome é: Bot :)',
+        'chat gpt': 'Chat quê? Sou muito melhor que ele',
         'tempo': 'Está um dia de sol!',
         ('bye', 'adeus', 'tchau'): 'Gostei de falar contigo! Até breve...',
         'historia de portugal': 'Portugal tem uma rica história...',
+        'horas': lambda: f'São: {datetime.now():%H:%M} horas',
+        ('data', 'dia'): lambda: f'Hoje é dia: {datetime.now():%d-%m-%Y}',
     }
 
     for chave, resposta in respostas.items():
         if isinstance(chave, tuple):
-            if comando in chave:
+            if any(subcomando in comando for subcomando in chave):
+                if callable(resposta):
+                    return resposta()
                 return resposta
         elif chave in comando:
+            if callable(resposta):
+                return resposta()
             return resposta
 
-    if 'horas' in comando:
+    """if 'horas' in comando:
         return f'São: {datetime.now():%H:%M} horas'
 
     if 'data' in comando:
-        return f'Hoje é dia: {datetime.now():%d-%m-%Y}'
+        return f'Hoje é dia: {datetime.now():%d-%m-%Y}'"""
 
     return f'Desculpa, não entendi a questão! {texto}'
-"""
+
 
 
 def chat() -> None:
